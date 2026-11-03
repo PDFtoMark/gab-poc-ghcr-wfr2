@@ -1,0 +1,17 @@
+name: Releaser
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  releaser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: craft fake release artifact
+        run: |
+          mkdir -p out
+          printf '%s' '{"version":"v0.0.1","id":"1","url":"https://example.invalid","draft":false,"assets":[]}' > out/release.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: version.json
+          path: out/release.json
